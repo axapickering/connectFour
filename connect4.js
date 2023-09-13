@@ -20,10 +20,10 @@ const boardMatrix = []; // array of rows, each row is array of cells  (board[y][
 function makeBoard() {
 
   let row = [];
-  row.length = WIDTH;
+  row.length = HEIGHT;
   row.fill(null);
 
-  boardMatrix.length = HEIGHT;
+  boardMatrix.length = WIDTH;
   boardMatrix.fill(row);
 
 }
@@ -31,68 +31,87 @@ function makeBoard() {
 /** makeHtmlBoard: make HTML table and row of column tops. */
 
 function makeHtmlBoard() {
+  // TODO: function decomp
   const htmlBoard = document.getElementById('board');
 
-  // creating top row TODO: update comment
+  // creating top row
   const topRow = document.createElement("tr");
   topRow.setAttribute("id", "column-top");
 
-  // TODO: add comment for this code
+  // populate top row with tiles
   for (let x = 0; x < WIDTH; x++) {
-    var headCell = document.createElement("td");
+    const headCell = document.createElement("td");
     headCell.setAttribute("id", `top-${x}`);
     headCell.addEventListener("click", handleClick);
     topRow.append(headCell);
   }
+
   htmlBoard.append(topRow);
 
   // dynamically creates the main part of html board
   // uses HEIGHT to create table rows
   // uses WIDTH to create table cells for each row
-  for (var y = 0; y < HEIGHT; y++) {
-    // TODO: Create a table row element and assign to a "row" variable
+  for (let y = 0; y < HEIGHT; y++) {
+    // Create a table row element and assign to a "row" variable
+    const rowElement = document.createElement('tr');
 
-    for (var x = 0; x < WIDTH; x++) {
-      // TODO: Create a table cell element and assign to a "cell" variable
-
-      // TODO: add an id, c-y-x, to the above table cell element
+    for (let x = 0; x < WIDTH; x++) {
+      // Create a table cell element and assign to a "cell" variable
+      const cellElement = document.createElement('td');
+      // add an id, c-y-x, to the above table cell element
       // you'll use this later, so make sure you use c-y-x
+      cellElement.setAttribute("id", `c-${y}-${x}`);
 
-      // TODO: append the table cell to the table row
-
+      // append the table cell to the table row
+      rowElement.appendChild(cellElement);
     }
-    // TODO: append the row to the html board
 
+    // append the row to the html board
+    htmlBoard.appendChild(rowElement);
   }
 }
 
 /** findSpotForCol: given column x, return bottom empty y (null if filled) */
 
 function findSpotForCol(x) {
-  // TODO: write the real version of this, rather than always returning 5
-  return 5;
+  // write the real version of this, rather than always returning 5
+  // iterate bottom up
+  for (let y = HEIGHT -1; y >= 0; y--) {
+    // if boardMatrix x, y is not null, return y
+    // TODO: is xy good here or should be yx?
+    if (!(boardMatrix[x][y] === null)) {
+      return y;
+    }
+  }
+  // if whole column is filled
+  return null;
 }
 
 /** placeInTable: update DOM to place piece into HTML table of board */
 
 function placeInTable(y, x) {
-  // TODO: make a div and insert into correct table cell
+  // make a div and insert into correct table cell
+  const playerPieceDiv = document.createElement('div');
+  const tableCell = document.querySelector(`#c-${y}-${x}`);
+
+  tableCell.appendChild(playerPieceDiv);
 }
 
 /** endGame: announce game end */
 
 function endGame(msg) {
-  // TODO: pop up alert message
+  // pop up alert message
+  alert(msg);
 }
 
 /** handleClick: handle click of column top to play piece */
 
 function handleClick(evt) {
   // get x from ID of clicked cell
-  var x = +evt.target.id;
+  const x = +evt.target.id;
 
   // get next spot in column (if none, ignore click)
-  var y = findSpotForCol(x);
+  const y = findSpotForCol(x);
   if (y === null) {
     return;
   }
