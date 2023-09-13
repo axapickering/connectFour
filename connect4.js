@@ -18,20 +18,14 @@ const boardMatrix = []; // array of rows, each row is array of cells  (board[y][
  */
 
 function makeBoard() {
-
-  let row = [];
-  row.length = HEIGHT;
-  row.fill(null);
-
-  boardMatrix.length = WIDTH;
-  boardMatrix.fill(row);
-
+  for (let y = 0; y < HEIGHT; y++) {
+    boardMatrix[y] = Array.from({length:WIDTH}).fill(null);
+  }
 }
 
 /** makeHtmlBoard: make HTML table and row of column tops. */
 
 function makeHtmlBoard() {
-  // TODO: function decomp
   const htmlBoard = document.getElementById('board');
 
   // creating top row
@@ -41,7 +35,7 @@ function makeHtmlBoard() {
   // populate top row with tiles
   for (let x = 0; x < WIDTH; x++) {
     const headCell = document.createElement("td");
-    headCell.setAttribute("id", `top-${x}`);
+    headCell.setAttribute("id", `${x}`);
     headCell.addEventListener("click", handleClick);
     topRow.append(headCell);
   }
@@ -78,7 +72,7 @@ function findSpotForCol(x) {
   // iterate bottom up
   for (let y = HEIGHT -1; y >= 0; y--) {
     // if boardMatrix x, y is not null, return y
-    if (!(boardMatrix[x][y] === null)) {
+    if (boardMatrix[x][y] != null) {
       return y;
     }
   }

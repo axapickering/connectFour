@@ -4,7 +4,7 @@ beforeEach(function () {
   console.log("Run once before each test starts");
 
   // reset & make in-memory board
-  board.length = 0;
+  boardMatrix.length = 0;
   makeBoard();
 
   // reset & make html board
@@ -20,16 +20,16 @@ beforeEach(function () {
 describe('makeBoard', function () {
 
   it('makes the in-memory board', function () {
-    expect(board.length).toEqual(HEIGHT);
+    expect(boardMatrix.length).toEqual(HEIGHT);
 
-    for (const row of board) {
+    for (const row of boardMatrix) {
       expect(row.length).toEqual(WIDTH);
     }
   });
 
   it('in-memory board rows should have unique identity', function () {
-    const rows = new Set(board);
-    expect(rows.size).toEqual(board.length);
+    const rows = new Set(boardMatrix);
+    expect(rows.size).toEqual(boardMatrix.length);
   });
 });
 
@@ -57,7 +57,7 @@ describe('findSpotForCol', function () {
 
     expect(findSpotForCol(x)).toEqual(y);
 
-    board[y][x] = "filled";
+    boardMatrix[y][x] = "filled";
 
     expect(findSpotForCol(x)).toEqual(y - 1);
   });
@@ -67,7 +67,7 @@ describe('findSpotForCol', function () {
     const x = 1;
 
     while (y < HEIGHT) {
-      board[y][x] = "filled";
+      boardMatrix[y][x] = "filled";
       y++;
     }
 
@@ -112,18 +112,18 @@ describe('handleClick', function () {
 
     // spot on board is empty
     // after one call to handleClick, gets updated with player 1
-    expect(board[y][x]).toEqual(null);
+    expect(boardMatrix[y][x]).toEqual(null);
     handleClick(evt);
-    expect(board[y][x]).toEqual(1);
+    expect(boardMatrix[y][x]).toEqual(1);
 
     // increment y to next unfilled row for x
     y = HEIGHT - 2;
 
     // spot on board is empty
     // after next call to handleClick, gets updated with player 2
-    expect(board[y][x]).toEqual(null);
+    expect(boardMatrix[y][x]).toEqual(null);
     handleClick(evt);
-    expect(board[y][x]).toEqual(2);
+    expect(boardMatrix[y][x]).toEqual(2);
   });
 
   it('it updates html board with correct pieces', function () {
@@ -160,10 +160,10 @@ describe('checkForWin', function () {
   });
 
   it('returns true if there is a winner', function () {
-    board[0][1] = 1;
-    board[0][2] = 1;
-    board[0][3] = 1;
-    board[0][4] = 1;
+    boardMatrix[0][1] = 1;
+    boardMatrix[0][2] = 1;
+    boardMatrix[0][3] = 1;
+    boardMatrix[0][4] = 1;
 
     expect(checkForWin()).toEqual(true);
   });
