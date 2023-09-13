@@ -7,37 +7,44 @@
  * board fills (tie)
  */
 
-var WIDTH = 7;
-var HEIGHT = 6;
+const WIDTH = 7;
+const HEIGHT = 6;
 
-var currPlayer = 1; // active player: 1 or 2
-var board = []; // array of rows, each row is array of cells  (board[y][x])
+let currPlayer = 1; // active player: 1 or 2
+const boardMatrix = []; // array of rows, each row is array of cells  (board[y][x])
 
 /** makeBoard: create in-JS board structure:
  *    board = array of rows, each row is array of cells  (board[y][x])
  */
 
 function makeBoard() {
-  // TODO: set "board" to empty HEIGHT x WIDTH matrix array
+
+  let row = [];
+  row.length = WIDTH;
+  row.fill(null);
+
+  boardMatrix.length = HEIGHT;
+  boardMatrix.fill(row);
+
 }
 
 /** makeHtmlBoard: make HTML table and row of column tops. */
 
 function makeHtmlBoard() {
-  var htmlBoard = document.getElementById('board');
+  const htmlBoard = document.getElementById('board');
+
+  // creating top row TODO: update comment
+  const topRow = document.createElement("tr");
+  topRow.setAttribute("id", "column-top");
 
   // TODO: add comment for this code
-  var top = document.createElement("tr");
-  top.setAttribute("id", "column-top");
-  
-  // TODO: add comment for this code
-  for (var x = 0; x < WIDTH; x++) {
+  for (let x = 0; x < WIDTH; x++) {
     var headCell = document.createElement("td");
     headCell.setAttribute("id", `top-${x}`);
     headCell.addEventListener("click", handleClick);
-    top.append(headCell);
+    topRow.append(headCell);
   }
-  htmlBoard.append(top);
+  htmlBoard.append(topRow);
 
   // dynamically creates the main part of html board
   // uses HEIGHT to create table rows
