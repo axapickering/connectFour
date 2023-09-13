@@ -78,7 +78,6 @@ function findSpotForCol(x) {
   // iterate bottom up
   for (let y = HEIGHT -1; y >= 0; y--) {
     // if boardMatrix x, y is not null, return y
-    // TODO: is xy good here or should be yx?
     if (!(boardMatrix[x][y] === null)) {
       return y;
     }
@@ -103,6 +102,16 @@ function endGame(msg) {
   // pop up alert message
   alert(msg);
 }
+/**
+ *  checks if all cells are full
+ * @returns boolean representing tie
+ */
+function checkIfBoardIsFull() {
+  for (let x = 0;x < WIDTH; x++) {
+    if (!(findSpotForCol(x) === null)) return false;
+  }
+  return true;
+}
 
 /** handleClick: handle click of column top to play piece */
 
@@ -117,8 +126,8 @@ function handleClick(evt) {
   }
 
   // place piece in board and add to HTML table
-  // TODO: add line to update in-memory board
   placeInTable(y, x);
+  boardMatrix[x][y] = currPlayer;
 
   // check for win
   if (checkForWin()) {
@@ -126,10 +135,12 @@ function handleClick(evt) {
   }
 
   // check for tie
-  // TODO: check if all cells in board are filled; if so call, call endGame
+  if (checkIfBoardIsFull()) {
+    return endGame(`Tie!`);
+  }
 
   // switch players
-  // TODO: switch currPlayer 1 <-> 2
+  currPlayer = currPlayer === 1 ? 2 : 1;
 }
 
 /** checkForWin: check board cell-by-cell for "does a win start here?" */
@@ -151,8 +162,8 @@ function checkForWin() {
   // using HEIGHT and WIDTH, generate "check list" of coordinates
   // for 4 cells (starting here) for each of the different
   // ways to win: horizontal, vertical, diagonalDR, diagonalDL
-  for (var y = 0; y < HEIGHT; y++) {
-    for (var x = 0; x < WIDTH; x++) {
+  for (let y = 0; y < HEIGHT; y++) {
+    for (let x = 0; x < WIDTH; x++) {
       // TODO: assign values to the below variables for each of the ways to win
       // horizontal has been assigned for you
       // each should be an array of 4 cell coordinates:
