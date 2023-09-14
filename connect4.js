@@ -152,15 +152,14 @@ function checkForWin() {
   function _win(cells) {
     // TODO: Check four cells to see if they're all legal & all color of current
     // player
-
+    console.log('cells= ', cells);
     let endX = cells[3][1];
     let endY = cells[3][0];
 
     // checking ends for validity
     if (endY > 0 && endY < HEIGHT && endX < WIDTH && endX > 0) {
       // check if all cells are same player
-    return cells.every(cell => boardMatrix[cell[0]][cell[1]] === 1) ||
-           cells.every(cell => boardMatrix[cell[0]][cell[1]] === 2);
+      return cells.every(cell => boardMatrix[cell[0]][cell[1]] === currPlayer);
     }
     return false;
 
@@ -177,7 +176,7 @@ function checkForWin() {
       // [ [y, x], [y, x], [y, x], [y, x] ]
 
       let horiz = [[y, x], [y, x + 1], [y, x + 2], [y, x + 3]];
-      let vert = [[y, x], [y + 1, x], [y + 2, x], [y + 3, x]];
+      let vert = [[y, x], [y - 1, x], [y - 2, x], [y - 3, x]];
       let diagDL = [[y, x], [y - 1, x - 1], [y - 2, x - 2], [y - 3, x - 3]];
       let diagDR = [[y, x], [y - 1, x + 1], [y - 2, x + 2], [y - 3, x + 3]];
 
