@@ -35,7 +35,7 @@ function makeHtmlBoard() {
   // populate top row with tiles
   for (let x = 0; x < WIDTH; x++) {
     const headCell = document.createElement("td");
-    headCell.setAttribute("id", `${x}`);
+    headCell.setAttribute("id", `top-${x}`);
     headCell.addEventListener("click", handleClick);
     topRow.append(headCell);
   }
@@ -71,7 +71,6 @@ function findSpotForCol(x) {
   // write the real version of this, rather than always returning 5
   // iterate bottom up
   for (let y = HEIGHT-1 ; y >= 0; y--) {
-    debugger;
     // if boardMatrix x, y is not null, return y
     if (boardMatrix[y][x] === null) {
       return y;
@@ -87,11 +86,10 @@ function placeInTable(y, x) {
   // make a div and insert into correct table cell
   const playerPieceDiv = document.createElement('div');
   playerPieceDiv.classList.add("piece");
-  playerPieceDiv.classList.add(`${currPlayer}`);
+  playerPieceDiv.classList.add(`p${currPlayer}`);
 
   const tableCell = document.querySelector(`#c-${y}-${x}`);
   tableCell.appendChild(playerPieceDiv);
-
 }
 
 /** endGame: announce game end */
@@ -114,9 +112,9 @@ function checkIfBoardIsFull() {
 /** handleClick: handle click of column top to play piece */
 
 function handleClick(evt) {
-  // get x from ID of clicked cell
-  const x = +evt.target.id;
-
+  // get x from ID of clicked cell top-${x}
+  // extract x
+  const x = Number(evt.target.id.slice(4));
   // get next spot in column (if none, ignore click)
   const y = findSpotForCol(x);
   if (y === null) {
@@ -124,8 +122,9 @@ function handleClick(evt) {
   }
 
   // place piece in board and add to HTML table
-  placeInTable(y, x);
+
   boardMatrix[y][x] = currPlayer;
+  placeInTable(y, x);
 
   // check for win
   if (checkForWin()) {
@@ -151,9 +150,13 @@ function checkForWin() {
    * currPlayer
    */
   function _win(cells) {
-
     // TODO: Check four cells to see if they're all legal & all color of current
     // player
+    cells = cells.map(cell => {
+      while (){
+        boardMatrix[cell[0]][cell[1]] || null
+      } });
+    return cells.every(cell => cell === 1) || cells.every(cell => cell === 2);
 
   }
 
@@ -168,9 +171,9 @@ function checkForWin() {
       // [ [y, x], [y, x], [y, x], [y, x] ]
 
       let horiz = [[y, x], [y, x + 1], [y, x + 2], [y, x + 3]];
-      let vert;
-      let diagDL;
-      let diagDR;
+      let vert = [[y, x], [y + 1, x], [y + 2, x], [y + 3, x]];
+      let diagDL = [[y, x], [y - 1, x - 1], [y - 2, x - 2], [y - 3, x - 3]];
+      let diagDR = [[y, x], [y - 1, x + 1], [y - 2, x + 2], [y - 3, x + 3]];
 
       // find winner (only checking each win-possibility as needed)
       if (_win(horiz) || _win(vert) || _win(diagDR) || _win(diagDL)) {

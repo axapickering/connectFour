@@ -94,13 +94,15 @@ describe('handleClick', function () {
 
   it('it switches players', function () {
     const evt = { target: { id: "top-0" } };
-
+    console.log('current player=', currPlayer);
     expect(currPlayer).toEqual(1);
 
     handleClick(evt);
+    console.log('current player=', currPlayer);
     expect(currPlayer).toEqual(2);
 
     handleClick(evt);
+    console.log('current player=', currPlayer);
     expect(currPlayer).toEqual(1);
   });
 
