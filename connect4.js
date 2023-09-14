@@ -152,11 +152,17 @@ function checkForWin() {
   function _win(cells) {
     // TODO: Check four cells to see if they're all legal & all color of current
     // player
-    cells = cells.map(cell => {
-      while (){
-        boardMatrix[cell[0]][cell[1]] || null
-      } });
-    return cells.every(cell => cell === 1) || cells.every(cell => cell === 2);
+
+    let endX = cells[3][1];
+    let endY = cells[3][0];
+
+    // checking ends for validity
+    if (endY > 0 && endY < HEIGHT && endX < WIDTH && endX > 0) {
+      // check if all cells are same player
+    return cells.every(cell => boardMatrix[cell[0]][cell[1]] === 1) ||
+           cells.every(cell => boardMatrix[cell[0]][cell[1]] === 2);
+    }
+    return false;
 
   }
 
