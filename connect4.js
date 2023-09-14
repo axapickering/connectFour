@@ -70,9 +70,10 @@ function makeHtmlBoard() {
 function findSpotForCol(x) {
   // write the real version of this, rather than always returning 5
   // iterate bottom up
-  for (let y = HEIGHT -1; y >= 0; y--) {
+  for (let y = HEIGHT-1 ; y >= 0; y--) {
+    debugger;
     // if boardMatrix x, y is not null, return y
-    if (boardMatrix[x][y] != null) {
+    if (boardMatrix[y][x] === null) {
       return y;
     }
   }
@@ -85,9 +86,12 @@ function findSpotForCol(x) {
 function placeInTable(y, x) {
   // make a div and insert into correct table cell
   const playerPieceDiv = document.createElement('div');
-  const tableCell = document.querySelector(`#c-${y}-${x}`);
+  playerPieceDiv.classList.add("piece");
+  playerPieceDiv.classList.add(`${currPlayer}`);
 
+  const tableCell = document.querySelector(`#c-${y}-${x}`);
   tableCell.appendChild(playerPieceDiv);
+
 }
 
 /** endGame: announce game end */
@@ -121,7 +125,7 @@ function handleClick(evt) {
 
   // place piece in board and add to HTML table
   placeInTable(y, x);
-  boardMatrix[x][y] = currPlayer;
+  boardMatrix[y][x] = currPlayer;
 
   // check for win
   if (checkForWin()) {
